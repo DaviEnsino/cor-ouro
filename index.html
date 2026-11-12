@@ -3,247 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corrida do Ouro - 6º Ano</title>
+    <title>Corrida do Ouro</title>
+    <meta name="description" content="Jogo educativo de corrida e conversão de unidades de massa para o 6º ano.">
+    <meta property="og:title" content="Corrida do Ouro">
+    <meta property="og:description" content="Jogo educativo de corrida e conversão de unidades de massa para o 6º ano.">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter e Fredoka -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body id="sky-body" class="bg-gradient-to-b from-sky-400 via-sky-300 to-sky-200 min-h-screen flex flex-col justify-between overflow-x-hidden select-none text-slate-800 transition-colors duration-700">
+<body class="bg-gradient-to-b from-sky-400 via-sky-300 to-amber-100 min-h-screen flex flex-col justify-between select-none text-slate-800">
 
-    <!-- Top Header & Scoreboards -->
-    <header class="w-full max-w-6xl mx-auto px-4 pt-4 pb-2 flex flex-col sm:flex-row justify-between items-center gap-3 z-20">
-        <!-- Title Badge + Botão Trocar Modalidade -->
-        <div class="flex items-center gap-2.5">
-            <div class="bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl shadow-lg border-2 border-amber-300 flex items-center gap-3">
-                <span class="text-3xl">⛏️</span>
-                <div>
-                    <h1 class="font-fredoka text-xl sm:text-2xl text-amber-600 font-bold tracking-wide">Corrida do Ouro</h1>
-                    <p id="mode-subtitle" class="text-xs text-slate-500 font-semibold">Matemática • 6º Ano • kg → t</p>
-                </div>
-            </div>
-            <button id="change-mode-btn" class="bg-white/90 hover:bg-amber-50 text-slate-700 font-fredoka text-xs sm:text-sm font-bold px-3.5 py-2.5 rounded-2xl shadow-md border-2 border-slate-300 active:scale-95 transition-all flex items-center gap-1.5" title="Escolher outra conversão de massa">
-                <span>🔄</span>
-                <span class="hidden md:inline">Modalidade</span>
-            </button>
-        </div>
-
-        <!-- Scoreboard (Canto Superior Direito - 2 Jogadores) -->
-        <div class="flex flex-wrap justify-center gap-3">
-            <!-- Placar Jogador 1 (Tecla J) -->
-            <div class="bg-amber-500 text-white px-4 py-2 rounded-2xl shadow-lg border-4 border-amber-300 flex items-center gap-2.5 transform hover:scale-105 transition-transform">
-                <span class="text-xl animate-pulse">🟡</span>
-                <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-amber-100">Jogador 1 (Tecla J)</p>
-                    <p id="score-display-1" class="font-fredoka text-lg sm:text-xl font-bold leading-tight">0 kg</p>
-                </div>
-            </div>
-
-            <!-- Placar Jogador 2 (Tecla F) -->
-            <div class="bg-emerald-600 text-white px-4 py-2 rounded-2xl shadow-lg border-4 border-emerald-300 flex items-center gap-2.5 transform hover:scale-105 transition-transform">
-                <span class="text-xl animate-pulse">🟢</span>
-                <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-100">Jogador 2 (Tecla F)</p>
-                    <p id="score-display-2" class="font-fredoka text-lg sm:text-xl font-bold leading-tight">0 kg</p>
-                </div>
+    <!-- Header Principal -->
+    <header class="w-full max-w-5xl mx-auto px-4 pt-6 pb-2 text-center">
+        <div class="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-6 py-3 rounded-3xl shadow-xl border-3 border-amber-400 mb-2">
+            <span class="text-4xl animate-bounce">⛏️</span>
+            <div class="text-left">
+                <h1 class="font-fredoka text-2xl sm:text-4xl text-amber-600 font-bold tracking-wide">Corrida do Ouro</h1>
+                <p class="text-xs sm:text-sm text-slate-600 font-semibold">Matemática Divertida • 6º Ano • Conversão de Medidas de Massa</p>
             </div>
         </div>
     </header>
 
-    <!-- Main Game Area (Centro da Tela: Céu com nuvens + Pista Retangular limpa) -->
-    <main class="w-full max-w-5xl mx-auto px-4 flex-1 flex flex-col justify-center items-center relative my-2">
+    <!-- Main Content: Escolha da Modalidade -->
+    <main class="w-full max-w-5xl mx-auto px-4 flex-1 flex flex-col justify-center items-center my-4">
         
-        <!-- Nuvens estilizadas na parte superior (conforme o esboço) -->
-        <div class="w-full max-w-4xl h-24 sm:h-32 relative pointer-events-none mb-2">
-            <!-- Nuvem Esquerda -->
-            <svg class="w-28 sm:w-36 h-16 sm:h-20 text-white absolute left-[10%] top-2 animate-cloud drop-shadow-sm" viewBox="0 0 120 70" fill="currentColor">
-                <path class="cloud-outline transition-colors duration-700" d="M25,55 L90,55 C105,55 115,44 115,30 C115,17 104,7 91,8 C86,2 78,0 70,3 C61,-2 48,1 43,10 C38,8 32,8 27,11 C14,12 5,23 5,36 C5,47 14,55 25,55 Z" stroke="#0284C7" stroke-width="2.5" stroke-linejoin="round"/>
-            </svg>
-            <!-- Nuvem Direita -->
-            <svg class="w-40 sm:w-56 h-20 sm:h-24 text-white absolute right-[12%] top-0 animate-cloud drop-shadow-sm" style="animation-delay: -3.5s;" viewBox="0 0 180 80" fill="currentColor">
-                <path class="cloud-outline transition-colors duration-700" d="M30,65 L140,60 C160,59 175,45 175,27 C175,11 160,0 144,4 C135,12 122,16 108,16 L85,16 C75,8 60,10 52,20 C40,18 28,24 23,35 C12,38 5,48 8,58 C11,64 20,65 30,65 Z" stroke="#0284C7" stroke-width="2.5" stroke-linejoin="round"/>
-            </svg>
-        </div>
-
-        <!-- Pista de Corrida Retangular (0 a 10 + Faixa de Chegada) -->
-        <div class="w-full max-w-4xl bg-amber-100/95 border-4 border-slate-800 rounded-2xl shadow-xl relative h-56 sm:h-64 flex items-center overflow-visible">
+        <div class="w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border-4 border-amber-300 p-6 sm:p-10 text-center">
             
-            <!-- Área de Corrida (0 a 10) -->
-            <div class="flex-1 h-full relative flex flex-col justify-end pb-4 px-6 sm:px-10">
-                
-                <!-- Linha tracejada divisória das duas raias -->
-                <div class="w-full border-b-4 border-dashed border-slate-400/70 mb-14"></div>
-
-                <!-- Personagem Jogador 1 (Raia Superior - Amarelo/Laranja - Tecla J) -->
-                <div id="avatar-1" class="absolute bottom-24 transition-all duration-300 ease-out z-20 flex flex-col items-center transform -translate-x-1/2">
-                    <span class="bg-amber-500 text-white text-[10px] font-fredoka font-bold px-2 py-0.5 rounded-full border border-slate-800 shadow-sm mb-0.5">J1 (J)</span>
-                    <div id="avatar-icon-1" class="drop-shadow-md avatar-bounce">
-                        <svg class="w-11 h-14 sm:w-12 sm:h-16" viewBox="0 0 64 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="32" cy="84" rx="14" ry="3.5" fill="rgba(15, 23, 42, 0.25)"/>
-                            <rect x="14" y="34" width="10" height="20" rx="4" fill="#92400E" stroke="#1E293B" stroke-width="2.5"/>
-                            <path id="leg-left-1" d="M28 56 L22 76 L17 76" stroke="#1E3A8A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path id="shoe-left-1" d="M16 76 L24 76" stroke="#451A03" stroke-width="5" stroke-linecap="round"/>
-                            <path id="leg-right-1" d="M35 56 L42 76 L47 76" stroke="#2563EB" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path id="shoe-right-1" d="M41 76 L49 76" stroke="#78350F" stroke-width="5" stroke-linecap="round"/>
-                            <path id="arm-left-1" d="M26 36 L18 48" stroke="#FDBA74" stroke-width="5.5" stroke-linecap="round"/>
-                            <rect x="23" y="31" width="18" height="26" rx="7" fill="#F59E0B" stroke="#1E293B" stroke-width="2.5"/>
-                            <path d="M27 31 L27 57 M37 31 L37 57" stroke="#D97706" stroke-width="2"/>
-                            <rect x="29" y="25" width="6" height="7" fill="#FDBA74"/>
-                            <circle cx="33" cy="17" r="11" fill="#FDBA74" stroke="#1E293B" stroke-width="2.5"/>
-                            <path d="M22 16 C22 8, 43 7, 44 15 C40 12, 28 11, 22 16 Z" fill="#451A03"/>
-                            <circle cx="37.5" cy="16" r="1.8" fill="#1E293B"/>
-                            <path d="M35 21 Q38 23.5 40.5 21" stroke="#1E293B" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                            <path id="arm-right-1" d="M36 36 L45 46" stroke="#FDBA74" stroke-width="5.5" stroke-linecap="round"/>
-                            <path d="M34 34 L38 40" stroke="#F59E0B" stroke-width="6.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Personagem Jogador 2 (Raia Inferior - Verde Esmeralda - Tecla F) -->
-                <div id="avatar-2" class="absolute bottom-11 transition-all duration-300 ease-out z-30 flex flex-col items-center transform -translate-x-1/2">
-                    <span class="bg-emerald-600 text-white text-[10px] font-fredoka font-bold px-2 py-0.5 rounded-full border border-slate-800 shadow-sm mb-0.5">J2 (F)</span>
-                    <div id="avatar-icon-2" class="drop-shadow-md avatar-bounce" style="animation-delay: -0.35s;">
-                        <svg class="w-11 h-14 sm:w-12 sm:h-16" viewBox="0 0 64 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="32" cy="84" rx="14" ry="3.5" fill="rgba(15, 23, 42, 0.25)"/>
-                            <rect x="14" y="34" width="10" height="20" rx="4" fill="#065F46" stroke="#1E293B" stroke-width="2.5"/>
-                            <path id="leg-left-2" d="M28 56 L22 76 L17 76" stroke="#312E81" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path id="shoe-left-2" d="M16 76 L24 76" stroke="#1E293B" stroke-width="5" stroke-linecap="round"/>
-                            <path id="leg-right-2" d="M35 56 L42 76 L47 76" stroke="#4338CA" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path id="shoe-right-2" d="M41 76 L49 76" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
-                            <path id="arm-left-2" d="M26 36 L18 48" stroke="#FDBA74" stroke-width="5.5" stroke-linecap="round"/>
-                            <rect x="23" y="31" width="18" height="26" rx="7" fill="#10B981" stroke="#1E293B" stroke-width="2.5"/>
-                            <path d="M27 31 L27 57 M37 31 L37 57" stroke="#047857" stroke-width="2"/>
-                            <rect x="29" y="25" width="6" height="7" fill="#FDBA74"/>
-                            <circle cx="33" cy="17" r="11" fill="#FDBA74" stroke="#1E293B" stroke-width="2.5"/>
-                            <path d="M22 16 C22 8, 43 7, 44 15 C40 12, 28 11, 22 16 Z" fill="#1E293B"/>
-                            <circle cx="37.5" cy="16" r="1.8" fill="#1E293B"/>
-                            <path d="M35 21 Q38 23.5 40.5 21" stroke="#1E293B" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                            <path id="arm-right-2" d="M36 36 L45 46" stroke="#FDBA74" stroke-width="5.5" stroke-linecap="round"/>
-                            <path d="M34 34 L38 40" stroke="#10B981" stroke-width="6.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Marcações no chão de 0 a 10 -->
-                <div id="track-markers" class="w-full flex justify-between items-center relative z-10">
-                    <!-- Gerado via JS de 0 a 10 -->
-                </div>
+            <div class="max-w-2xl mx-auto mb-8">
+                <span class="inline-block bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">
+                    Desafio em Dupla • Tela Dividida
+                </span>
+                <h2 class="font-fredoka text-2xl sm:text-3xl text-slate-800 font-bold mb-2">
+                    Escolha a Modalidade de Corrida
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Cada passo soma <strong>100 unidades menores</strong>. Quem alcançar 10 passos completa <strong>1.000 unidades</strong> e conquista a unidade maior primeiro!
+                </p>
             </div>
 
-            <!-- Zona da Linha de Chegada (Direita da pista, como no desenho) -->
-            <div class="w-16 sm:w-24 h-full border-l-4 border-slate-800 bg-gradient-to-b from-amber-300 via-yellow-200 to-amber-300 rounded-r-xl flex flex-col items-center justify-center relative overflow-hidden">
-                <span class="text-2xl sm:text-3xl mb-1">🏆</span>
-                <span id="finish-goal-label" class="font-fredoka text-[10px] sm:text-xs font-bold text-amber-900 uppercase tracking-tight text-center leading-tight px-1">1 Ton<br>Ouro</span>
+            <!-- Grade com as 3 Páginas de Modalidade -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+                
+                <!-- Card 1: ml -> g -->
+                <a href="ml-g.html" class="group relative bg-gradient-to-b from-sky-50 to-sky-100 hover:from-sky-100 hover:to-sky-200 border-3 border-sky-300 hover:border-sky-500 rounded-3xl p-6 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1.5 flex flex-col items-center justify-between">
+                    <span class="text-5xl mb-3 group-hover:scale-125 transition-transform duration-300">🧪</span>
+                    <div>
+                        <h3 class="font-fredoka text-2xl font-bold text-sky-800 mb-1">ml → g</h3>
+                        <p class="text-xs font-bold text-sky-700 bg-sky-200/80 px-3 py-1 rounded-full inline-block mb-3">
+                            1.000 ml = 1 g
+                        </p>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                            Ouro líquido no laboratório. Avança de 100 em 100 ml até formar 1 grama de ouro!
+                        </p>
+                    </div>
+                    <span class="w-full bg-sky-600 group-hover:bg-sky-700 text-white font-fredoka font-bold py-2.5 px-4 rounded-xl text-sm shadow-sm transition-colors flex items-center justify-center gap-1.5">
+                        <span>Iniciar Corrida</span>
+                        <span>➔</span>
+                    </span>
+                </a>
+
+                <!-- Card 2: g -> kg -->
+                <a href="g-kg.html" class="group relative bg-gradient-to-b from-emerald-50 to-emerald-100 hover:from-emerald-100 hover:to-emerald-200 border-3 border-emerald-300 hover:border-emerald-500 rounded-3xl p-6 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1.5 flex flex-col items-center justify-between">
+                    <span class="text-5xl mb-3 group-hover:scale-125 transition-transform duration-300">⚖️</span>
+                    <div>
+                        <h3 class="font-fredoka text-2xl font-bold text-emerald-800 mb-1">g → kg</h3>
+                        <p class="text-xs font-bold text-emerald-700 bg-emerald-200/80 px-3 py-1 rounded-full inline-block mb-3">
+                            1.000 g = 1 kg
+                        </p>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                            Pepitas douradas na balança. Cada passo adiciona 100 gramas até pesar 1 quilograma!
+                        </p>
+                    </div>
+                    <span class="w-full bg-emerald-600 group-hover:bg-emerald-700 text-white font-fredoka font-bold py-2.5 px-4 rounded-xl text-sm shadow-sm transition-colors flex items-center justify-center gap-1.5">
+                        <span>Iniciar Corrida</span>
+                        <span>➔</span>
+                    </span>
+                </a>
+
+                <!-- Card 3: kg -> t (Destaque) -->
+                <a href="kg-t.html" class="group relative bg-gradient-to-b from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 border-4 border-amber-400 hover:border-amber-600 rounded-3xl p-6 transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 flex flex-col items-center justify-between ring-2 ring-amber-400/40">
+                    <div class="absolute -top-3 right-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-fredoka font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-sm">
+                        Modalidade Principal
+                    </div>
+                    <span class="text-5xl mb-3 group-hover:scale-125 transition-transform duration-300">🏆</span>
+                    <div>
+                        <h3 class="font-fredoka text-2xl font-bold text-amber-800 mb-1">kg → t</h3>
+                        <p class="text-xs font-bold text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full inline-block mb-3">
+                            1.000 kg = 1 t
+                        </p>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                            Cargas pesadas na mina de ouro. Avance de 100 em 100 kg até conquistar 1 tonelada de ouro!
+                        </p>
+                    </div>
+                    <span class="w-full bg-gradient-to-r from-amber-500 to-amber-600 group-hover:from-amber-600 group-hover:to-amber-700 text-white font-fredoka font-bold py-2.5 px-4 rounded-xl text-sm shadow-md transition-colors flex items-center justify-center gap-1.5">
+                        <span>Iniciar Corrida</span>
+                        <span>➔</span>
+                    </span>
+                </a>
+
+            </div>
+
+            <!-- Instruções de Controles -->
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-around gap-4 text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-fredoka font-bold text-xl shadow-md">
+                        J
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-700">Jogador 1 (Amarelo)</p>
+                        <p class="text-[11px] text-slate-500">Pressione a tecla <strong>J</strong> ou toque no botão do J1</p>
+                    </div>
+                </div>
+
+                <div class="hidden sm:block w-px h-10 bg-slate-200"></div>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-fredoka font-bold text-xl shadow-md">
+                        F
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-700">Jogador 2 (Verde)</p>
+                        <p class="text-[11px] text-slate-500">Pressione a tecla <strong>F</strong> ou toque no botão do J2</p>
+                    </div>
+                </div>
+
+                <div class="hidden sm:block w-px h-10 bg-slate-200"></div>
+
+                <div class="flex items-center gap-2 text-xs text-slate-600 font-medium">
+                    <span class="text-2xl">⚡</span>
+                    <span>10 passos para a vitória! Sem travas ou delays.</span>
+                </div>
             </div>
 
         </div>
 
     </main>
 
-    <!-- Rodapé com Desafio Pedagógico e Instruções -->
-    <footer class="w-full bg-white/95 backdrop-blur-md border-t-4 border-amber-400 shadow-[0_-8px_25px_rgba(0,0,0,0.08)] z-20 px-4 py-4">
-        <div class="max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
-            
-            <!-- Mensagem Motivacional / Pergunta Matemática -->
-            <div class="flex-1 text-center lg:text-left">
-                <span id="conversion-badge" class="inline-block bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide mb-1">
-                    Desafio em Dupla • 1 Tonelada (t) = 1.000 kg
-                </span>
-                <p id="prompt-message" class="font-fredoka text-base sm:text-lg text-slate-800">
-                    <span class="text-amber-600 font-bold">Jogador 1 (J)</span> vs <span class="text-emerald-600 font-bold">Jogador 2 (F)</span>: Quem chega primeiro a 1.000 kg?
-                </p>
-            </div>
-
-            <!-- Controles / Instruções de Teclado e Toque -->
-            <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
-                <button id="mobile-step-btn-1" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-fredoka px-4 py-2.5 rounded-xl shadow-md border-2 border-amber-300 active:scale-95 transition-all flex items-center gap-2 text-sm">
-                    <span>🟡 J1 • Tecla <strong>J</strong> (+<span class="step-increment-label">100 kg</span>)</span>
-                </button>
-                <button id="mobile-step-btn-2" class="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-fredoka px-4 py-2.5 rounded-xl shadow-md border-2 border-emerald-300 active:scale-95 transition-all flex items-center gap-2 text-sm">
-                    <span>🟢 J2 • Tecla <strong>F</strong> (+<span class="step-increment-label">100 kg</span>)</span>
-                </button>
-            </div>
-
-        </div>
+    <!-- Rodapé -->
+    <footer class="w-full py-4 text-center text-xs text-slate-600">
+        <p class="font-medium">Corrida do Ouro • Prática Pedagógica de Matemática • 6º Ano</p>
     </footer>
 
-    <!-- Modal de Seleção de Modalidade (Aberto ao iniciar) -->
-    <div id="mode-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-md flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-xl w-full text-center shadow-2xl border-4 border-amber-400">
-            <div class="text-5xl mb-2">⚖️</div>
-            <h2 class="font-fredoka text-2xl sm:text-3xl text-amber-600 font-bold mb-1">Escolha a Modalidade da Corrida</h2>
-            <p class="text-slate-600 text-sm mb-6">Selecione qual conversão de unidades de medida vocês vão disputar hoje (6º Ano):</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-4">
-                <!-- Modalidade 1: ml -> g (mg -> g) -->
-                <button onclick="selectMode('ml-g')" class="group bg-sky-50 hover:bg-sky-100 border-3 border-sky-300 hover:border-sky-500 rounded-2xl p-4 transition-all shadow-sm hover:shadow-md active:scale-95 flex flex-col items-center">
-                    <span class="text-3xl mb-1.5 group-hover:scale-110 transition-transform">🧪</span>
-                    <span class="font-fredoka text-xl font-bold text-sky-700">ml → g</span>
-                    <span class="text-[11px] font-bold text-sky-600 bg-sky-200/70 px-2 py-0.5 rounded-full mt-1">1.000 ml (mg) = 1 g</span>
-                    <span class="text-xs text-slate-500 mt-2">+100 por passo</span>
-                </button>
-
-                <!-- Modalidade 2: g -> kg -->
-                <button onclick="selectMode('g-kg')" class="group bg-emerald-50 hover:bg-emerald-100 border-3 border-emerald-300 hover:border-emerald-500 rounded-2xl p-4 transition-all shadow-sm hover:shadow-md active:scale-95 flex flex-col items-center">
-                    <span class="mb-1.5 group-hover:scale-110 transition-transform flex items-center justify-center h-9">
-                        <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 18L18 11H30L36 18L42 33H6L12 18Z" fill="#FBBF24" stroke="#92400E" stroke-width="2.5" stroke-linejoin="round"/>
-                            <path d="M18 11L21 18H27L30 11" fill="#FDE68A"/>
-                            <path d="M12 18H36L42 33H6L12 18Z" fill="#F59E0B" fill-opacity="0.35"/>
-                            <path d="M15 22L17 28" stroke="#FEF3C7" stroke-width="2.5" stroke-linecap="round"/>
-                        </svg>
-                    </span>
-                    <span class="font-fredoka text-xl font-bold text-emerald-700">g → kg</span>
-                    <span class="text-[11px] font-bold text-emerald-600 bg-emerald-200/70 px-2 py-0.5 rounded-full mt-1">1.000 g = 1 kg</span>
-                    <span class="text-xs text-slate-500 mt-2">+100 g por passo</span>
-                </button>
-
-                <!-- Modalidade 3: kg -> t -->
-                <button onclick="selectMode('kg-t')" class="group bg-amber-50 hover:bg-amber-100 border-3 border-amber-300 hover:border-amber-500 rounded-2xl p-4 transition-all shadow-sm hover:shadow-md active:scale-95 flex flex-col items-center">
-                    <span class="text-3xl mb-1.5 group-hover:scale-110 transition-transform">🏆</span>
-                    <span class="font-fredoka text-xl font-bold text-amber-700">kg → t</span>
-                    <span class="text-[11px] font-bold text-amber-600 bg-amber-200/70 px-2 py-0.5 rounded-full mt-1">1.000 kg = 1 t</span>
-                    <span class="text-xs text-slate-500 mt-2">+100 kg por passo</span>
-                </button>
-            </div>
-
-            <p class="text-[11px] text-slate-400">Cada passo avança 100 unidades menores até completar 1.000 e formar 1 unidade maior!</p>
-        </div>
-    </div>
-
-    <!-- Victory Modal / Overlay -->
-    <div id="victory-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-4 border-amber-400 transform animate-bounce-in relative overflow-hidden">
-            
-            <!-- Confetti Canvas Background for Victory -->
-            <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none"></canvas>
-
-            <div class="relative z-10">
-                <div class="text-6xl mb-3 animate-spin">🌟</div>
-                <h2 id="winner-title" class="font-fredoka text-2xl sm:text-3xl text-amber-600 font-bold mb-2">Parabéns, Jogador 1!</h2>
-                <div class="bg-amber-100 text-amber-900 p-4 rounded-2xl my-4 border border-amber-300">
-                    <p id="victory-headline" class="font-fredoka text-lg sm:text-xl font-bold">VOCÊ GANHOU UMA TONELADA DE OURO!</p>
-                    <p id="victory-formula" class="text-xs text-amber-700 mt-1 font-semibold">(1 Tonelada = 1.000 kg)</p>
-                </div>
-                <p id="winner-subtitle" class="text-slate-600 text-sm mb-6">Você completou os 10 passos primeiro e dominou o desafio matemático do 6º ano!</p>
-                
-                <div class="flex flex-col sm:flex-row gap-2.5">
-                    <button id="restart-btn" class="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-fredoka py-3.5 rounded-2xl shadow-xl border-2 border-amber-300 text-base active:scale-95 transition-all">
-                        🔄 Jogar Novamente
-                    </button>
-                    <button id="victory-change-mode-btn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-fredoka py-3.5 px-4 rounded-2xl border-2 border-slate-300 text-base active:scale-95 transition-all">
-                        ⚖️ Modalidades
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Game Logic -->
-    <script src="script.js"></script>
-    <!--comentario teste-->
 </body>
 </html>
