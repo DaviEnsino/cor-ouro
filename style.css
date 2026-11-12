@@ -1,0 +1,30 @@
+body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-fredoka {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+        /* Custom animations */
+        @keyframes floatCloud {
+            0% { transform: translateX(-25px); }
+            50% { transform: translateX(25px); }
+            100% { transform: translateX(-25px); }
+        }
+        .animate-cloud {
+            animation: floatCloud 9s ease-in-out infinite;
+        }
+        @keyframes bounceAvatar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .avatar-bounce {
+            animation: bounceAvatar 0.7s ease-in-out infinite;
+        }
+        @keyframes stepStride {
+            0% { transform: translateY(0) scale(1); }
+            45% { transform: translateY(-14px) scale(1.04); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        .avatar-stepping {
+            animation: stepStride 0.3s ease-out;
+        }
